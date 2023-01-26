@@ -1,0 +1,125 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+    font-weight: 100;
+    color: #fff;
+
+}
+
+body {
+    background: #222;
+    height: 100vh;
+}
+
+.container {
+    height: calc(70vh);
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar {
+    background-color: #222;
+    display: flex;
+    flex-direction: column;
+    border-right: #444 solid 0.1rem;
+}
+
+.sidebar > div {
+    background-size: 1rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 1rem;
+}
+
+.footer {
+    height: calc(30vh - 2rem);
+    background: #000;
+    padding: 1rem;
+}
+
+.files {
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    width: 30vh;
+    overflow: scroll;
+}
+
+.entry {
+    display: inline-flex;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.run {
+    background: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUgNC45ODk1MUM1IDQuMDE4MzUgNSAzLjUzMjc3IDUuMjAyNDkgMy4yNjUxQzUuMzc4ODkgMy4wMzE5MSA1LjY0ODUyIDIuODg3NjEgNS45NDA0IDIuODcwMThDNi4yNzU0NCAyLjg1MDE3IDYuNjc5NDYgMy4xMTk1MyA3LjQ4NzUyIDMuNjU4MjNMMTguMDAzMSAxMC42Njg2QzE4LjY3MDggMTEuMTEzNyAxOS4wMDQ2IDExLjMzNjMgMTkuMTIwOSAxMS42MTY4QzE5LjIyMjcgMTEuODYyMSAxOS4yMjI3IDEyLjEzNzcgMTkuMTIwOSAxMi4zODNDMTkuMDA0NiAxMi42NjM1IDE4LjY3MDggMTIuODg2IDE4LjAwMzEgMTMuMzMxMkw3LjQ4NzUyIDIwLjM0MTVDNi42Nzk0NiAyMC44ODAyIDYuMjc1NDQgMjEuMTQ5NiA1Ljk0MDQgMjEuMTI5NkM1LjY0ODUyIDIxLjExMjIgNS4zNzg4OSAyMC45Njc5IDUuMjAyNDkgMjAuNzM0N0M1IDIwLjQ2NyA1IDE5Ljk4MTQgNSAxOS4wMTAzVjQuOTg5NTFaIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+Cg==');
+}
+
+.documents {
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTIgNC43NUMyIDMuNzg0IDIuNzg0IDMgMy43NSAzaDQuOTcxYy41OCAwIDEuMTIuMjg2IDEuNDQ3Ljc2NWwxLjQwNCAyLjA2M2MuMDQ2LjA2OS4xMjQuMTEuMjA3LjExaDguNDcxYy45NjYgMCAxLjc1Ljc4MyAxLjc1IDEuNzVWMTkuMjVBMS43NSAxLjc1IDAgMCAxIDIwLjI1IDIxSDMuNzVBMS43NSAxLjc1IDAgMCAxIDIgMTkuMjVabTEuNzUtLjI1YS4yNS4yNSAwIDAgMC0uMjUuMjV2MTQuNWMwIC4xMzguMTEyLjI1LjI1LjI1aDE2LjVhLjI1LjI1IDAgMCAwIC4yNS0uMjVWNy42ODdhLjI1LjI1IDAgMCAwLS4yNS0uMjVoLTguNDcxYTEuNzUgMS43NSAwIDAgMS0xLjQ0Ny0uNzY1TDguOTI4IDQuNjFhLjI1Mi4yNTIgMCAwIDAtLjIwOC0uMTFaIiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjwvcGF0aD48L3N2Zz4K');
+}
+
+
+.delete {
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTkuMDM2IDcuOTc2YS43NS43NSAwIDAgMC0xLjA2IDEuMDZMMTAuOTM5IDEybC0yLjk2MyAyLjk2M2EuNzUuNzUgMCAxIDAgMS4wNiAxLjA2TDEyIDEzLjA2bDIuOTYzIDIuOTY0YS43NS43NSAwIDAgMCAxLjA2MS0xLjA2TDEzLjA2MSAxMmwyLjk2My0yLjk2NGEuNzUuNzUgMCAxIDAtMS4wNi0xLjA2TDEyIDEwLjkzOSA5LjAzNiA3Ljk3NloiIGZpbGw9IiNmZmYiPjwvcGF0aD48cGF0aCBkPSJNMTIgMWM2LjA3NSAwIDExIDQuOTI1IDExIDExcy00LjkyNSAxMS0xMSAxMVMxIDE4LjA3NSAxIDEyIDUuOTI1IDEgMTIgMVpNMi41IDEyYTkuNSA5LjUgMCAwIDAgOS41IDkuNSA5LjUgOS41IDAgMCAwIDkuNS05LjVBOS41IDkuNSAwIDAgMCAxMiAyLjUgOS41IDkuNSAwIDAgMCAyLjUgMTJaIiBmaWxsPSIjZmZmIj48L3BhdGg+PC9zdmc+Cg==');
+    margin: 0.15rem 0 0 0;
+}
+
+.icon {
+    min-width: 1rem;
+    min-height: 1rem;
+}
+
+.add {
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PHBhdGggZD0iTTExLjc1IDQuNWEuNzUuNzUgMCAwIDEgLjc1Ljc1VjExaDUuNzVhLjc1Ljc1IDAgMCAxIDAgMS41SDEyLjV2NS43NWEuNzUuNzUgMCAwIDEtMS41IDBWMTIuNUg1LjI1YS43NS43NSAwIDAgMSAwLTEuNUgxMVY1LjI1YS43NS43NSAwIDAgMSAuNzUtLjc1WiIgZmlsbD0iI2ZmZiI+PC9wYXRoPjwvc3ZnPgo=');
+}
+
+ .editorarea {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.editorarea > .title {
+    padding: 0.5rem 1rem;
+    color: #888;
+    background: #222;
+    outline: none;
+    border: none;
+    border-bottom: #444 solid 0.1rem;
+}
+
+.editor {
+    background: #222;
+    border: none;
+    min-width: max-content;
+    height: calc(70vh - 3rem);
+    padding: 0.5rem;
+}
+
+.hide {
+    width: 0;
+    transition: width 0.5s 0.25s;
+}
+
+.show {
+    width: 30vw;
+    transition: width 0.5s;
+}
+
+.show > div {
+    transition: opacity 250ms 500ms, visibility 250ms 500ms;
+    visibility: visible;
+    opacity: 1;
+}
+
+.hide > div {
+    transition: opacity 250ms, visibility 250ms;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.editor:focus {
+    outline: none;
+}
