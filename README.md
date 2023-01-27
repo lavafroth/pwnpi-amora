@@ -1,9 +1,9 @@
 # PwnPi - A More Offensive Redteam Appliance
 
-PwnPi Amora is a wireless keystroke injection tool built on the Raspberry Pi Pico W using MicroPython.
+PwnPi Amora is a wireless keystroke injection tool built on the Raspberry Pi Pico W using CircuitPython.
 
 ## Quick Start
-- Download the latest CircuitPython u2f (preferably stable release if it exists) file from [here](https://circuitpython.org/board/raspberry_pi_pico_w/).
+- Download the latest CircuitPython U2F (preferably stable release if it exists) file from [here](https://circuitpython.org/board/raspberry_pi_pico_w/).
 - Plug in your Raspberry Pi Pico W while pressing the `BOOTSEL` button. Once plugged in, it should be visible as a USB drive.
 - Drag and drop the `adafruit-circuitpython-raspberry_pi_pico_w-xx_XX-x.x.x.x.uf2` image onto the newly visible drive. After a while, it will reload with the label `CIRCUITPY`.
 - Download the `adafruit-circuitpython-bundle-8.x-mpy-xxxxxxxx.zip` bundle from [here](https://github.com/adafruit/Adafruit_CircuitPython_Bundle/releases/latest).
