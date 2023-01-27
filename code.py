@@ -14,7 +14,7 @@ from ducky import runScript
 
 async def main():
     wifi.radio.start_ap(
-        ssid=os.getenv("AMORA_SSID"), password=os.getenv("AMORA_PASSWORD")
+        ssid=os.getenv("SSID"), password=os.getenv("PASSWORD")
     )
     pool = socketpool.SocketPool(wifi.radio)
     server = HTTPServer(pool)
