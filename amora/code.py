@@ -9,29 +9,27 @@ from adafruit_httpserver.request import HTTPRequest
 from adafruit_httpserver.response import HTTPResponse
 from adafruit_httpserver.methods import HTTPMethod
 from adafruit_httpserver.mime_type import MIMEType
-from ducky import runScript
+from ducky import run_script_file
 
 
 async def main():
-    wifi.radio.start_ap(
-        ssid=os.getenv("SSID"), password=os.getenv("PASSWORD")
-    )
+    wifi.radio.start_ap(ssid=os.getenv("SSID"), password=os.getenv("PASSWORD"))
     pool = socketpool.SocketPool(wifi.radio)
     server = HTTPServer(pool)
 
     @server.route("/")
-    def base(request: HTTPRequest):  # pylint: disable=unused-argument
+    def base(_):
         with HTTPResponse(request, content_type=MIMEType.TYPE_HTML) as response:
             response.send_file("static/index.html")
 
     @server.route("/main.css")
-    def css(request: HTTPRequest):
-        with HTTPResponse(request, content_type=MIMEType.TYPE_HTML) as response:
+    def css(_):
+        with HTTPResponse(request, content_type=MIMEType.TYPE_CSS) as response:
             response.send_file("static/main.css")
 
     @server.route("/script.js")
-    def js(request: HTTPRequest):
-        with HTTPResponse(request, content_type=MIMEType.TYPE_HTML) as response:
+    def js(_):
+        with HTTPResponse(request, content_type=MIMEType.TYPE_JS) as response:
             response.send_file("static/script.js")
 
     @server.route("/api", HTTPMethod.POST)
@@ -53,7 +51,7 @@ async def main():
                 with open(f"payloads/" + body["filename"], "wb") as h:
                     h.write(b"")
             elif action == "run":
-                runScript(f"payloads/" + body["filename"])
+                run_script_file(f"payloads/" + body["filename"])
 
     server.start(str(wifi.radio.ipv4_address_ap))
     while True:
