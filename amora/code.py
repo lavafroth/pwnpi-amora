@@ -18,17 +18,17 @@ async def main():
     server = HTTPServer(pool)
 
     @server.route("/")
-    def base(_):
+    def base(request: HTTPRequest):
         with HTTPResponse(request, content_type=MIMEType.TYPE_HTML) as response:
             response.send_file("static/index.html")
 
     @server.route("/main.css")
-    def css(_):
+    def css(request: HTTPRequest):
         with HTTPResponse(request, content_type=MIMEType.TYPE_CSS) as response:
             response.send_file("static/main.css")
 
     @server.route("/script.js")
-    def js(_):
+    def js(request: HTTPRequest):
         with HTTPResponse(request, content_type=MIMEType.TYPE_JS) as response:
             response.send_file("static/script.js")
 
