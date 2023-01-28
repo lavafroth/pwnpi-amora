@@ -12,8 +12,10 @@ PwnPi Amora is a wireless keystroke injection tool built on the Raspberry Pi Pic
 - Copy all the files from the `amora` directory to the drive. The board will reload again.
 - Connect to the newly spawned network and go to [`192.168.4.1`](http://192.168.4.1)
 
+## Video Guide
+
+[![Video Thumbnail](https://thumbnails.odycdn.com/optimize/s:720:400/quality:85/plain/https://thumbs.odycdn.com/782a20086911e18bedf17c8651b84c07.webp)](https://odysee.com/@lavafroth:d/amora_setup_guide:8)
+
 ## Acknowledgement
 
-A huge thank you to David Bailey (dbisu, @dbisu) for his pico-ducky project.
-A lot of the HID code from his project was the foundation for this project.
-However, a lot of it has undergone so much of refactoring that the old code is almost nonexistent. 
+A huge thank you to David Bailey (dbisu, @dbisu) for his pico-ducky project which has served as the foundation for the HID side of this project. Although, the old code is almost nonexistent due to intensive refactoring.
