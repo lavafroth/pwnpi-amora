@@ -35,7 +35,7 @@ Modify the WiFi SSID and password in `settings.toml`.
 The binary release has the web files minified and embedded inside the `code.py` file.
 There is no static directory. Although this saves some space in terms of flash memory, it makes it difficult to customize the UI or functionality.
 
-If you wish to style the UI different or add extra functionality to the code, please follow the developer setup.
+If you wish to style the UI different or add extra functionality to the code, please follow the [developer setup](https://github.com/lavafroth/pwnpi-amora#developer-setup).
 
 ## Video Guide
 
