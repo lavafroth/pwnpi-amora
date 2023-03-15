@@ -4,7 +4,7 @@ PwnPi Amora is a wireless keystroke injection tool built on the Raspberry Pi Pic
 
 ## Getting Started
 
-Check out the [wiki](https://github.com/lavafroth/pwnpi-amora/wiki) for getting started.
+Check out the [wiki](https://github.com/lavafroth/pwnpi-amora/wiki/Quick-Start) for getting started.
 
 ### TODO:
 
