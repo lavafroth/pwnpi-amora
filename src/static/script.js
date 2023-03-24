@@ -34,7 +34,8 @@ editor.addEventListener('keyup', (_) => {
 function reload_logs() {
     doApi({'action':'logs'}).then(r => r.json()).then(body => {
         body.map(entry => {
-        logs.innerHTML += entry + '<br />'
+        logs.innerText += entry + '\n'
+        logs.scrollTo(0, logs.scrollHeight)
         })
     })
 }

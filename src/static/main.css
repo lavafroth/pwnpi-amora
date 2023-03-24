@@ -36,6 +36,8 @@ body {
     height: calc(30vh - 2rem);
     background: #000;
     padding: 1rem;
+    overflow: scroll;
+    scroll-behavior: smooth;
 }
 
 .files {
@@ -93,6 +95,7 @@ body {
 .editor {
     background: #222;
     border: none;
+    resize: none;
     min-width: max-content;
     height: calc(70vh - 3rem);
     padding: 0.5rem;
