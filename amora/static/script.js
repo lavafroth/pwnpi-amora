@@ -93,6 +93,8 @@ documents_icon.addEventListener('click', () => {
 run_icon.addEventListener('click', () => {
     if (title.value != "") {
         doApi({"action": "run", "filename": title.value})
+    } else {
+        doApi({"action": "run", "contents": editor.value})
     }
 })
 

@@ -66,7 +66,7 @@ def run_script(contents):
                     millis = default_delay
                 delay(millis)
             elif message := after("PRINT"):
-                log(message, logs)
+                log(message)
             elif path := after("IMPORT"):
                 run_script_file(path)
             elif millis := after("DEFAULT_DELAY", "DEFAULTDELAY"):
@@ -87,4 +87,4 @@ def run_script_file(path: str):
         with open(path, "r", encoding="utf-8") as handle:
             run_script(handle.read())
     except OSError as e:
-        log(f"unable to open file {path}: {e}")
+        log(f"warning: unable to open file {path}: {e}")

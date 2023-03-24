@@ -1,7 +1,7 @@
 import logs
 import os
 import json
-from ducky import run_script_file
+from ducky import run_script_file, run_script
 
 
 def create(path, contents=b""):
@@ -31,4 +31,7 @@ def handle(body, response):
     elif action == "create":
         create(filename)
     elif action == "run":
-        run_script_file(path)
+        if filename is not None:
+            run_script_file(path)
+        elif contents := body["contents"]:
+            run_script(contents)
