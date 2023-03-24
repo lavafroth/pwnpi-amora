@@ -2,7 +2,7 @@ import glob
 from subprocess import PIPE, Popen
 from os import listdir, makedirs
 from os.path import join, splitext
-from shutil import copytree, copy
+from shutil import copytree, copy, rmtree
 from errno import ENOTDIR
 SRC = 'src'
 DST = 'build'
@@ -25,6 +25,7 @@ def to_compile(s: str):
     return None
 
 
+rmtree(DST, ignore_errors=True)
 makedirs(DST, exist_ok=True)
 mpy_cross_bin = join(".", glob.glob("mpy-cross.static*")[0])
 
