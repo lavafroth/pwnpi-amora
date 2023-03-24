@@ -32,9 +32,10 @@ editor.addEventListener('keyup', (_) => {
 
 
 function reload_logs() {
-    doApi({'action':'logs'}).then(r => r.json()).then(b => {
-        logs.innerHTML += b.join('\n')
-        logs.innerHTML += '\n'
+    doApi({'action':'logs'}).then(r => r.json()).then(body => {
+        body.map(entry => {
+        logs.innerHTML += entry + '<br />'
+        })
     })
 }
 
