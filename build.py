@@ -4,7 +4,7 @@ from os import listdir, makedirs
 from os.path import join, splitext, isfile
 from shutil import copytree, copy
 SRC = 'src'
-OUT = 'build'
+DST = 'build'
 
 
 def lib_files(s: str):
@@ -14,21 +14,21 @@ def lib_files(s: str):
     return None
 
 
-makedirs(OUT, exist_ok=True)
+makedirs(DST, exist_ok=True)
 
 for entry in listdir(SRC):
+    src_path = join(SRC, entry)
     if name := lib_files(entry):
         Popen([
             join(".", glob.glob("mpy-cross.static*")[0]),
-            join(SRC, entry),
-            "-o",
-            join(OUT, f'{name}.mpy')
+            src_path, "-o",
+            join(DST, f'{name}.mpy')
         ],
             stdout=PIPE
         ).communicate()
-    elif isfile(join(SRC, entry)):
-        copy(join(SRC, entry),
-             join(OUT, entry))
     else:
-        copytree(join(SRC, entry),
-                 join(OUT, entry))
+        dst_path = join(DST, entry)
+        if isfile(join(SRC, entry)):
+            copy(src_path, dst_path)
+        else:
+            copytree(src_path, dst_path)
