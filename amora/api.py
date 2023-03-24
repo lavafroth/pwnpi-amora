@@ -29,7 +29,7 @@ def handle(body, response):
     elif action == "delete":
         os.remove(path)
     elif action == "create":
-        create(filename)
+        create(path)
     elif action == "run":
         if filename is not None:
             run_script_file(path)
