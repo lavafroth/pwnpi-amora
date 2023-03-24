@@ -1,2 +1,3 @@
-amora/lib/*
+build
 *.uf2
+mpy-cross*
