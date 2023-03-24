@@ -7,6 +7,7 @@ function g(html) {
 const waitTime = 500
 const files = document.querySelector(".files")
 const editor = document.querySelector('.editor')
+const logs = document.querySelector('.logs')
 const documents_icon = document.querySelector('.documents')
 const run_icon = document.querySelector('.run')
 const add_icon = document.querySelector('.add')
@@ -28,6 +29,14 @@ editor.addEventListener('keyup', (_) => {
         }
     }, waitTime);
 });
+
+
+function reload_logs() {
+    doApi({'action':'logs'}).then(r => r.json()).then(b => {
+        logs.innerHTML += b.join('\n')
+        logs.innerHTML += '\n'
+    })
+}
 
 function reload_listing() {
     doApi({ 'action': 'list' }).then(r => r.json()).then(b => {
@@ -89,3 +98,4 @@ run_icon.addEventListener('click', () => {
 
 reload_listing()
 setInterval(reload_listing, 2000)
+setInterval(reload_logs, 2000)

@@ -12,7 +12,7 @@ from adafruit_hid.keycode import Keycode
 
 import time
 from board import LED
-import asyncio
+from logs import log
 
 kbd = Keyboard(usb_hid.devices)
 layout = KeyboardLayout(kbd)
@@ -26,14 +26,22 @@ def prefix_checker(line: str):
     def checker(*prefixes):
         for prefix in prefixes:
             if line.startswith(prefix):
-                return line[len(prefix) + 1 :]
+                return line[len(prefix) + 1:]
 
     return checker
 
 
-# TODO: send this to the logs pane of the web interface
-def log(message: str):
-    print("[log]: " + message)
+def press_keys(line: str):
+    # loop on each key filtering empty values
+    for key in filter(None, line.split(" ")):
+        key = key.upper()
+        if command_keycode := Keycode.__dict__.get(key):
+            # If this is a valid key, send its keycode
+            kbd.press(command_keycode)
+            continue
+        # If it's not a known key name, log it for diagnosis
+        log(f"warning: unknown key: <{key}>")
+        kbd.release_all()
 
 
 def run_script(contents):
@@ -58,26 +66,17 @@ def run_script(contents):
                     millis = default_delay
                 delay(millis)
             elif message := after("PRINT"):
-                log(message)
+                log(message, logs)
             elif path := after("IMPORT"):
                 run_script_file(path)
             elif millis := after("DEFAULT_DELAY", "DEFAULTDELAY"):
                 default_delay = int(millis) * 10
             elif after("LED") is not None:
-                led.value ^= True
+                LED.value ^= True
             elif string := after("STRING"):
                 layout.write(string)
             else:
-                # loop on each key filtering empty values
-                for key in filter(None, line.split(" ")):
-                    key = key.upper()
-                    if command_keycode := Keycode.__dict__.get(key):
-                        # If this is a valid key, send its keycode
-                        kbd.press(command_keycode)
-                        continue
-                    # If it's not a known key name, log it for diagnosis
-                    log(f"unknown key: <{key}>")
-                kbd.release_all()
+                press_keys(line)
 
         previous_line = line
         delay(default_delay)
