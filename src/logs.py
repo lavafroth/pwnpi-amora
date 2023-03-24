@@ -8,5 +8,9 @@ def consume() -> str:
     return dump
 
 
-def log(message: str):
+def info(message: str):
     logs.append("info: " + message)
+
+
+def warn(message: str):
+    logs.append("warning: " + message)

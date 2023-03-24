@@ -12,7 +12,7 @@ from adafruit_hid.keycode import Keycode
 
 import time
 from board import LED
-from logs import log
+from logs import info, warn
 
 kbd = Keyboard(usb_hid.devices)
 layout = KeyboardLayout(kbd)
@@ -40,7 +40,7 @@ def press_keys(line: str):
             kbd.press(command_keycode)
             continue
         # If it's not a known key name, log it for diagnosis
-        log(f"warning: unknown key: <{key}>")
+        warn(f"unknown key: <{key}>")
         kbd.release_all()
 
 
@@ -66,7 +66,7 @@ def run_script(contents):
                     millis = default_delay
                 delay(millis)
             elif message := after("PRINT"):
-                log(message)
+                info(message)
             elif path := after("IMPORT"):
                 run_script_file(path)
             elif millis := after("DEFAULT_DELAY", "DEFAULTDELAY"):
@@ -87,4 +87,4 @@ def run_script_file(path: str):
         with open(path, "r", encoding="utf-8") as handle:
             run_script(handle.read())
     except OSError as e:
-        log(f"warning: unable to open file {path}: {e}")
+        warn(f"unable to open file {path}: {e}")
