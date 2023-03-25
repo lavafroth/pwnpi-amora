@@ -37,16 +37,11 @@ async def main():
         with HTTPResponse(request, content_type=MIMEType.TYPE_JSON) as response:
             handle(json.loads(request.body), response)
 
-    server.start(str(wifi.radio.ipv4_address_ap))
-    while True:
-        try:
-            server.poll()
-        except OSError as error:
-            print(error)
-
+    server.serve_forever(str(wifi.radio.ipv4_address_ap))
 
 if __name__ == "__main__":
     try:
         asyncio.run(main())
+    # For some reason, wifi.stop_ap is not implemented.
     except NotImplementedError:
         microcontroller.reset()
