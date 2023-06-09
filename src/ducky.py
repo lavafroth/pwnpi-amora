@@ -1,3 +1,6 @@
+"""
+Logic to interpret and execute user defined ducky script payloads.
+"""
 import time
 
 import usb_hid
@@ -21,19 +24,35 @@ layout = KeyboardLayout(kbd)
 
 
 def delay(millis):
+    """
+    Sleep, do absolutely nothing.
+    """
     time.sleep(float(millis) / 1000)
 
 
 def prefix_checker(line: str):
+    """
+    Returns a function that checks if line begins with
+    any of the prefixes supplied to it.
+
+    Syntax sugar so that we can later use it in conditional
+    statements like if something := checker("foo", "bar")
+    """
+
     def checker(*prefixes):
         for prefix in prefixes:
             if line.startswith(prefix):
                 return line[len(prefix) + 1:]
+        return None
 
     return checker
 
 
 def press_keys(line: str):
+    """
+    Press all the keys and then release them.
+    Really useful for keyboard shortcuts like Meta+R.
+    """
     # loop on each key filtering empty values
     for key in filter(None, line.split(" ")):
         key = key.upper()
@@ -46,45 +65,55 @@ def press_keys(line: str):
         kbd.release_all()
 
 
+def repeat(contents: str, times: int):
+    """
+    If the contents supplied is not empty or None,
+    repeat those ducky script lines `times` times.
+    """
+    if not contents:
+        return
+    for _ in range(times):
+        run_script(contents)
+
+
 def run_script(contents):
+    """
+    Interpret the ducky script and execute it line by line
+    """
     default_delay = 0
     previous_line = None
     for line in filter(None, contents.splitlines()):
         line = line.rstrip()
         after = prefix_checker(line)
-        # we only run a command once by default
-        run_n_times = 1
-        if repeat := after("REPEAT"):
-            if not previous_line:
-                continue
-            run_n_times = int(repeat)
-            line = previous_line
 
-        for _ in range(run_n_times):
-            if after("REM"):
-                continue
-            if (millis := after("DELAY")) is not None:
-                if millis == "":
-                    millis = default_delay
-                delay(millis)
-            elif message := after("PRINT"):
-                info(message)
-            elif path := after("IMPORT"):
-                run_script_file(path)
-            elif millis := after("DEFAULT_DELAY", "DEFAULTDELAY"):
-                default_delay = int(millis) * 10
-            elif after("LED") is not None:
-                LED.value ^= True
-            elif string := after("STRING"):
-                layout.write(string)
-            else:
-                press_keys(line)
+        if times := after("REPEAT"):
+            repeat(previous_line, int(times))
+
+        elif after("REM"):
+            continue
+        elif (millis := after("DELAY")) is not None:
+            delay(millis or default_delay)
+        elif message := after("PRINT"):
+            info(message)
+        elif path := after("IMPORT"):
+            run_script_file(path)
+        elif millis := after("DEFAULT_DELAY", "DEFAULTDELAY"):
+            default_delay = int(millis) * 10
+        elif after("LED") is not None:
+            LED.value ^= True
+        elif string := after("STRING"):
+            layout.write(string)
+        else:
+            press_keys(line)
 
         previous_line = line
         delay(default_delay)
 
 
 def run_script_file(path: str):
+    """
+    Try reading and running a ducky script from the supplied path.
+    """
     try:
         with open(path, "r", encoding="utf-8") as handle:
             run_script(handle.read())

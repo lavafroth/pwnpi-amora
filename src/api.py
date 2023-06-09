@@ -1,3 +1,6 @@
+"""
+Handler code to interact with the backend for each incoming web request
+"""
 import json
 import os
 
@@ -6,11 +9,18 @@ from ducky import run_script, run_script_file
 
 
 def create(path, contents=b""):
+    """
+    Create a new payload file, optionally with content to write to it.
+    """
     with open(path, "wb") as file:
         file.write(contents)
 
 
 def handle(body, response):
+    """
+    Handle all the API requests from the web interface like
+    create, load, store, delete and run.
+    """
     action = body["action"]
     if action == "list":
         response.send(json.dumps(os.listdir("payloads")))
