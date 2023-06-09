@@ -1,18 +1,31 @@
-import microcontroller
-import wifi
-import socketpool
+"""
+The entrypoint for our circuitpython board.
+"""
+
 import asyncio
-import os
 import json
-from api import handle
-from adafruit_httpserver.server import HTTPServer
-from adafruit_httpserver.request import HTTPRequest
-from adafruit_httpserver.response import HTTPResponse
+import os
+
+import microcontroller
+import socketpool
+import wifi
 from adafruit_httpserver.methods import HTTPMethod
 from adafruit_httpserver.mime_type import MIMEType
+from adafruit_httpserver.request import HTTPRequest
+from adafruit_httpserver.response import HTTPResponse
+from adafruit_httpserver.server import HTTPServer
+
+from api import handle
 
 
 async def main():
+    """
+    Begin a wifi access point defined by the SSID and PASSWORD environment
+    variables.
+    Spawn a socketpool on this interface.
+    Serve the web interface over this socketpool indefinitely using an HTTP
+    server.
+    """
     wifi.radio.start_ap(ssid=os.getenv("SSID"), password=os.getenv("PASSWORD"))
     pool = socketpool.SocketPool(wifi.radio)
     server = HTTPServer(pool)
@@ -28,7 +41,7 @@ async def main():
             response.send_file("static/main.css")
 
     @server.route("/script.js")
-    def js(request: HTTPRequest):
+    def javascript(request: HTTPRequest):
         with HTTPResponse(request, content_type=MIMEType.TYPE_JS) as response:
             response.send_file("static/script.js")
 
@@ -38,6 +51,7 @@ async def main():
             handle(json.loads(request.body), response)
 
     server.serve_forever(str(wifi.radio.ipv4_address_ap))
+
 
 if __name__ == "__main__":
     try:

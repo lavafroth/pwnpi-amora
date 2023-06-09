@@ -1,18 +1,20 @@
+import time
+
 import usb_hid
 from adafruit_hid.keyboard import Keyboard
 
 # comment out these lines for non_US keyboards
 from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS as KeyboardLayout
 from adafruit_hid.keycode import Keycode
+from board import LED
+
+from logs import info, warn
 
 # uncomment these lines for non_US keyboards
 # replace LANG with appropriate language
 # from keyboard_layout_win_LANG import KeyboardLayout
 # from keycode_win_LANG import Keycode
 
-import time
-from board import LED
-from logs import info, warn
 
 kbd = Keyboard(usb_hid.devices)
 layout = KeyboardLayout(kbd)
@@ -86,5 +88,5 @@ def run_script_file(path: str):
     try:
         with open(path, "r", encoding="utf-8") as handle:
             run_script(handle.read())
-    except OSError as e:
-        warn(f"unable to open file {path}: {e}")
+    except OSError as error:
+        warn(f"unable to open file {path}: {error}")

@@ -1,12 +1,13 @@
-import logs
-import os
 import json
-from ducky import run_script_file, run_script
+import os
+
+import logs
+from ducky import run_script, run_script_file
 
 
 def create(path, contents=b""):
-    with open(path, "wb") as h:
-        h.write(contents)
+    with open(path, "wb") as file:
+        file.write(contents)
 
 
 def handle(body, response):
@@ -22,8 +23,8 @@ def handle(body, response):
     filename = body.get("filename")
     path = f"payloads/{filename}"
     if action == "load":
-        with open(path) as h:
-            response.send(json.dumps({"contents": h.read()}))
+        with open(path) as file:
+            response.send(json.dumps({"contents": file.read()}))
     elif action == "store":
         create(path, body["contents"].encode())
     elif action == "delete":
