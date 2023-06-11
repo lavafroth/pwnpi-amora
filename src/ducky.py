@@ -54,15 +54,14 @@ def press_keys(line: str):
     Really useful for keyboard shortcuts like Meta+R.
     """
     # loop on each key filtering empty values
-    for key in filter(None, line.split(" ")):
-        key = key.upper()
+    for key in filter(None, line.upper().split(" ")):
         if command_keycode := Keycode.__dict__.get(key):
             # If this is a valid key, send its keycode
             kbd.press(command_keycode)
             continue
         # If it's not a known key name, log it for diagnosis
         warn(f"unknown key: <{key}>")
-        kbd.release_all()
+    kbd.release_all()
 
 
 def repeat(contents: str, times: int):
@@ -98,7 +97,7 @@ def run_script(contents):
         elif path := after("IMPORT"):
             run_script_file(path)
         elif millis := after("DEFAULT_DELAY", "DEFAULTDELAY"):
-            default_delay = int(millis) * 10
+            default_delay = int(millis)
         elif after("LED") is not None:
             LED.value ^= True
         elif string := after("STRING"):

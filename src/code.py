@@ -3,17 +3,12 @@ The entrypoint for our circuitpython board.
 """
 
 import asyncio
-import json
 import os
 
 import microcontroller
 import socketpool
 import wifi
-from adafruit_httpserver.methods import HTTPMethod
-from adafruit_httpserver.mime_type import MIMEType
-from adafruit_httpserver.request import HTTPRequest
-from adafruit_httpserver.response import HTTPResponse
-from adafruit_httpserver.server import HTTPServer
+from adafruit_httpserver import POST, FileResponse, Request, Server
 
 from api import handle
 
@@ -28,27 +23,23 @@ async def main():
     """
     wifi.radio.start_ap(ssid=os.getenv("SSID"), password=os.getenv("PASSWORD"))
     pool = socketpool.SocketPool(wifi.radio)
-    server = HTTPServer(pool)
+    server = Server(pool)
 
     @server.route("/")
-    def base(request: HTTPRequest):
-        with HTTPResponse(request, content_type=MIMEType.TYPE_HTML) as response:
-            response.send_file("static/index.html")
+    def base(request: Request):
+        return FileResponse(request, "index.html", root_path="/static")
 
     @server.route("/main.css")
-    def css(request: HTTPRequest):
-        with HTTPResponse(request, content_type=MIMEType.TYPE_CSS) as response:
-            response.send_file("static/main.css")
+    def css(request: Request):
+        return FileResponse(request, "main.css", root_path="/static")
 
     @server.route("/script.js")
-    def javascript(request: HTTPRequest):
-        with HTTPResponse(request, content_type=MIMEType.TYPE_JS) as response:
-            response.send_file("static/script.js")
+    def javascript(request: Request):
+        return FileResponse(request, "script.js", root_path="/static")
 
-    @server.route("/api", HTTPMethod.POST)
-    def api(request: HTTPRequest):
-        with HTTPResponse(request, content_type=MIMEType.TYPE_JSON) as response:
-            handle(json.loads(request.body), response)
+    @server.route("/api", POST)
+    def api(request: Request):
+        return handle(request)
 
     server.serve_forever(str(wifi.radio.ipv4_address_ap))
 

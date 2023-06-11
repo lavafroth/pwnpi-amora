@@ -1,8 +1,9 @@
 """
 Handler code to interact with the backend for each incoming web request
 """
-import json
 import os
+
+from adafruit_httpserver import JSONResponse, Request
 
 import logs
 from ducky import run_script, run_script_file
@@ -16,25 +17,24 @@ def create(path, contents=b""):
         file.write(contents)
 
 
-def handle(body, response):
+def handle(request: Request):
     """
     Handle all the API requests from the web interface like
     create, load, store, delete and run.
     """
+    body = request.json()
     action = body["action"]
     if action == "list":
-        response.send(json.dumps(os.listdir("payloads")))
-        return
+        return JSONResponse(request, os.listdir("payloads"))
 
     if action == "logs":
-        response.send(logs.consume())
-        return
+        return JSONResponse(request, logs.consume())
 
     filename = body.get("filename")
     path = f"payloads/{filename}"
     if action == "load":
         with open(path) as file:
-            response.send(json.dumps({"contents": file.read()}))
+            return JSONResponse(request, {"contents": file.read()})
     elif action == "store":
         create(path, body["contents"].encode())
     elif action == "delete":
@@ -46,3 +46,4 @@ def handle(body, response):
             run_script_file(path)
         elif contents := body["contents"]:
             run_script(contents)
+    return JSONResponse(request, {})

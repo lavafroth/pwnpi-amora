@@ -3,8 +3,6 @@ A very bare-bones logging implementation
 for the bottom pane of the Web UI.
 """
 
-import json
-
 logs = []
 
 
@@ -13,7 +11,7 @@ def consume() -> str:
     Convert all the log entries from the module's global mutable
     list to json return them, clearing the list after the dump.
     """
-    dump = json.dumps(logs)
+    dump = logs.copy()
     logs.clear()
     return dump
 
