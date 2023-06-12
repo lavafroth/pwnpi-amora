@@ -1,6 +1,7 @@
 """
 Logic to interpret and execute user defined ducky script payloads.
 """
+import os
 import time
 
 import usb_hid
@@ -117,4 +118,14 @@ def run_script_file(path: str):
         with open(path, "r", encoding="utf-8") as handle:
             run_script(handle.read())
     except OSError as error:
-        warn(f"unable to open file {path}: {error}")
+        warn(f"unable to run script {path}: {error}")
+
+
+async def run_boot_script():
+    """
+    Try reading and running the boot.dd script if defined by the user
+    """
+    path = "payloads/boot.dd"
+    if not os.path.exists(path):
+        return
+    run_script_file(path)

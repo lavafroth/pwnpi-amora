@@ -11,6 +11,7 @@ import wifi
 from adafruit_httpserver import POST, FileResponse, Request, Server
 
 from api import handle
+from ducky import run_boot_script
 
 
 async def main():
@@ -24,6 +25,9 @@ async def main():
     wifi.radio.start_ap(ssid=os.getenv("SSID"), password=os.getenv("PASSWORD"))
     pool = socketpool.SocketPool(wifi.radio)
     server = Server(pool)
+
+    # Run the boot script immediately after spawing the wifi network
+    asyncio.run(run_boot_script())
 
     @server.route("/")
     def base(request: Request):
