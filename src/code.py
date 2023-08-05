@@ -44,9 +44,15 @@ async def main():
     server.serve_forever(str(wifi.radio.ipv4_address_ap))
 
 
+async def run_boot_script():
+    boot_script = 'payloads/boot.dd'
+    if os.path.exists(boot_script):
+        run_script_file(boot_script)
+
+
 if __name__ == "__main__":
     try:
-        asyncio.run(main())
+        asyncio.gather(main(), run_boot_script())
     # For some reason, wifi.stop_ap is not implemented.
     except NotImplementedError:
         microcontroller.reset()
