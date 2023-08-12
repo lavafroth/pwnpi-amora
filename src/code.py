@@ -9,6 +9,7 @@ import microcontroller
 import socketpool
 import wifi
 from adafruit_httpserver import POST, FileResponse, Request, Server
+from ducky import run_script_file
 
 from api import handle
 
