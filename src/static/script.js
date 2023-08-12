@@ -11,7 +11,8 @@ const logs = document.querySelector('.logs')
 const documents_icon = document.querySelector('.documents')
 const run_icon = document.querySelector('.run')
 const add_icon = document.querySelector('.add')
-const title = document.querySelector('.editorarea > .title')
+const title = document.querySelector('.editorarea > .title-bar > .title')
+const title_button = document.querySelector('.editorarea > .title-bar > .title-btn')
 let timer
 
 function doApi(message) {
@@ -73,6 +74,11 @@ title.addEventListener('keypress', (e) => {
         doApi({"action": "create", "filename": title.value})
     }
 })
+
+title_button.addEventListener('click', () => {
+    title.readOnly = true
+    doApi({"action": "create", "filename": title.value})
+});
 
 add_icon.addEventListener('click', () => {
     editor.value = ''
