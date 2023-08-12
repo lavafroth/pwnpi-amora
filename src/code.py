@@ -9,12 +9,11 @@ import microcontroller
 import socketpool
 import wifi
 from adafruit_httpserver import POST, FileResponse, Request, Server
-from ducky import run_script_file
+from ducky import run_boot_script
 
 from api import handle
 
-
-async def main():
+async def setup_server():
     """
     Begin a wifi access point defined by the SSID and PASSWORD environment
     variables.
@@ -45,19 +44,16 @@ async def main():
     server.serve_forever(str(wifi.radio.ipv4_address_ap))
 
 
-async def run_boot_script():
-    """
-    If a script with the name 'boot.dd' exists,
-    run it without user interaction on boot.
-    """
-    boot_script = 'payloads/boot.dd'
-    if os.path.exists(boot_script):
-        run_script_file(boot_script)
+async def main():
+    await asyncio.gather(
+        run_boot_script(),
+        setup_server()
+    )
 
 
 if __name__ == "__main__":
     try:
-        asyncio.gather(main(), run_boot_script())
+        asyncio.run(main())
     # For some reason, wifi.stop_ap is not implemented.
     except NotImplementedError:
         microcontroller.reset()
