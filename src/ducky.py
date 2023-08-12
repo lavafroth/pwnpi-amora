@@ -118,3 +118,15 @@ def run_script_file(path: str):
             run_script(handle.read())
     except OSError as error:
         warn(f"unable to open file {path}: {error}")
+
+
+async def run_boot_script():
+    """
+    If a script with the name 'boot.dd' exists,
+    run it without user interaction on boot.
+    """
+    try:
+        with open("payloads/boot.dd", "r", encoding="utf-8") as handle:
+            run_script(handle.read())
+    except OSError:
+        info("boot script does not exist, skipping its execution")

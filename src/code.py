@@ -9,11 +9,11 @@ import microcontroller
 import socketpool
 import wifi
 from adafruit_httpserver import POST, FileResponse, Request, Server
+from ducky import run_boot_script
 
 from api import handle
 
-
-async def main():
+async def setup_server():
     """
     Begin a wifi access point defined by the SSID and PASSWORD environment
     variables.
@@ -42,6 +42,17 @@ async def main():
         return handle(request)
 
     server.serve_forever(str(wifi.radio.ipv4_address_ap))
+
+
+async def main():
+    """
+    Asynchronously run the boot script while setting
+    the server up for the web interface.
+    """
+    await asyncio.gather(
+        run_boot_script(),
+        setup_server()
+    )
 
 
 if __name__ == "__main__":

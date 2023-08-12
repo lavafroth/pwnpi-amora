@@ -13,8 +13,9 @@ body {
 }
 
 .container {
-    height: calc(70vh);
+    height: 70vh;
     display: flex;
+    overflow: hidden;
     flex-direction: row;
 }
 
@@ -44,8 +45,9 @@ body {
     background: #111;
     display: flex;
     flex-direction: column;
-    width: 25vw;
+    width: 0;
     overflow: scroll;
+    flex-shrink: 0;
 }
 
 .entry {
@@ -90,23 +92,36 @@ body {
  .editorarea {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    flex: 1;
 }
 
-.editorarea > .title {
-    padding: 0.5rem 1rem;
+.editorarea > .title-bar {
     color: #888;
     background: #222;
     outline: none;
-    border: none;
     border-bottom: #444 solid 0.1rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.editorarea > .title-bar > .title {
+    outline: none;
+    border: none;
+    background: #222;
+    flex-grow: 1;
+    padding: 0.5rem 1rem;
+}
+
+.editorarea > .title-bar > .title-btn {
+    border: none;
+    background: #222;
+    padding: 0 0.4rem 0 0.4rem;
 }
 
 .editor {
     background: #222;
     border: none;
     resize: none;
-    min-width: max-content;
     height: calc(70vh - 3rem);
     padding: 0.5rem;
 }
@@ -135,4 +150,10 @@ body {
 
 .editor:focus {
     outline: none;
+}
+
+@media screen and (orientation: portrait) {
+    .show {
+        width: calc(100vw - 3rem);
+    }
 }
