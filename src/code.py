@@ -45,6 +45,10 @@ async def setup_server():
 
 
 async def main():
+    """
+    Asynchronously run the boot script while setting
+    the server up for the web interface.
+    """
     await asyncio.gather(
         run_boot_script(),
         setup_server()
