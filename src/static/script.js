@@ -68,17 +68,17 @@ function reload_listing() {
     })
 }
 
-title.addEventListener('keypress', (e) => {
-    if (e.keyCode==13) {
-        title.readOnly = true
-        doApi({"action": "create", "filename": title.value})
-    }
-})
-
-title_button.addEventListener('click', () => {
+function create_file() {
     title.readOnly = true
     doApi({"action": "create", "filename": title.value})
-});
+}
+
+title_button.addEventListener('click', create_file);
+title.addEventListener('keypress', (e) => {
+    if (e.keyCode==13) {
+        create_file()
+    }
+})
 
 add_icon.addEventListener('click', () => {
     editor.value = ''
@@ -88,14 +88,8 @@ add_icon.addEventListener('click', () => {
 })
 
 documents_icon.addEventListener('click', () => {
-    const classList = files.classList
-    if (classList.contains("show")) {
-        files.classList.replace('show', 'hide')
-    } else if (classList.contains("hide")) {
-        files.classList.replace('hide', 'show')
-    } else {
-        files.classList.add('hide')
-    }
+    files.classList.toggle("show");
+    files.classList.toggle("hide");
 });
 
 run_icon.addEventListener('click', () => {
