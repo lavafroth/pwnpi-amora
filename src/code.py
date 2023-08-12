@@ -45,6 +45,10 @@ async def main():
 
 
 async def run_boot_script():
+    """
+    If a script with the name 'boot.dd' exists,
+    run it without user interaction on boot.
+    """
     boot_script = 'payloads/boot.dd'
     if os.path.exists(boot_script):
         run_script_file(boot_script)
