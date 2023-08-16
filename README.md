@@ -9,4 +9,4 @@ and deploying keystroke injection scripts.
 
 ## Getting Started
 
-Check out the [wiki](https://github.com/lavafroth/pwnpi-amora/wiki/Quick-Start) for getting started.
+Check out the [wiki](https://github.com/lavafroth/pwnpi-amora/wiki/) for getting started.
