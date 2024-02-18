@@ -8,11 +8,7 @@ const waitTime = 500
 const files = document.querySelector(".files")
 const editor = document.querySelector('.editor')
 const logs = document.querySelector('.logs')
-const documents_icon = document.querySelector('.documents')
-const run_icon = document.querySelector('.run')
-const add_icon = document.querySelector('.add')
 const title = document.querySelector('.editorarea > .title-bar > .title')
-const title_button = document.querySelector('.editorarea > .title-bar > .title-btn')
 let timer
 
 function doApi(message) {
@@ -35,8 +31,8 @@ editor.addEventListener('keyup', (_) => {
 function reload_logs() {
     doApi({'action':'logs'}).then(r => r.json()).then(body => {
         body.map(entry => {
-        logs.innerText += entry + '\n'
-        logs.scrollTo(0, logs.scrollHeight)
+            logs.innerText += entry + '\n'
+            logs.scrollTo(0, logs.scrollHeight)
         })
     })
 }
@@ -73,26 +69,33 @@ function create_file() {
     doApi({"action": "create", "filename": title.value})
 }
 
-title_button.addEventListener('click', create_file);
+title_btn.addEventListener('click', create_file);
 title.addEventListener('keypress', (e) => {
     if (e.keyCode==13) {
         create_file()
     }
 })
+title.addEventListener('keyup', (_) => {
+    if (title.value == "") {
+        title_btn.style.display = 'none'
+    } else {
+        title_btn.style.display = 'block'
+    }
+})
 
-add_icon.addEventListener('click', () => {
+add.addEventListener('click', () => {
     editor.value = ''
     title.value = ''
     title.readOnly = false
     title.focus()
 })
 
-documents_icon.addEventListener('click', () => {
+documents.addEventListener('click', () => {
     files.classList.toggle("show");
     files.classList.toggle("hide");
 });
 
-run_icon.addEventListener('click', () => {
+run.addEventListener('click', () => {
     if (title.value != "") {
         doApi({"action": "run", "filename": title.value})
     } else {
