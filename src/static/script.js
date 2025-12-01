@@ -18,6 +18,21 @@ function doApi(message) {
         body: JSON.stringify(message)
     })
 }
+
+
+editor.addEventListener("keydown", (e) => {
+  if (e.keyCode === 9) {
+    e.preventDefault();
+
+    editor.setRangeText(
+      "  ",
+      editor.selectionStart,
+      editor.selectionStart,
+      "end"
+    );
+  }
+});
+
 editor.addEventListener('keyup', (_) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
