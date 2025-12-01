@@ -3,12 +3,11 @@
 Builder script to compile .py files to .mpy bytecode using mpy-cross
 """
 
-import glob
 from errno import ENOTDIR
 from os import listdir, makedirs
 from os.path import join, splitext
 from shutil import copy, copytree, rmtree
-from subprocess import PIPE, Popen
+import mpy_cross
 
 SRC = "src"
 DST = "build"
@@ -61,21 +60,14 @@ def main():
     makedirs(DST, exist_ok=True)
     makedirs(join(DST, "lib"), exist_ok=True)
 
-    # Find the path of the mpy-cross binary
-    mpy_cross_bin = join(".", glob.glob("mpy-cross.static*")[0])
-
     # Process each entry in the source directory
     for entry in listdir(SRC):
         src_path = join(SRC, entry)
         # If the entry is a Python source file that needs to be compiled
         if name := to_compile(entry):
             # Compile the file using mpy-cross
-            with Popen(
-                [mpy_cross_bin, "-o",
-                    join(DST, "lib", f"{name}.mpy"), src_path],
-                stdout=PIPE,
-            ) as process:
-                process.communicate()
+            mpy_cross.run("-o",
+                    join(DST, "lib", f"{name}.mpy"), src_path)
         else:
             # Copy the file or directory to the build directory
             dst_path = join(DST, entry)

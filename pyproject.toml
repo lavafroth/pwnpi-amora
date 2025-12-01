@@ -1,0 +1,10 @@
+[project]
+name = "pwnpi-amora"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "circup>=2.3.0",
+    "mpy-cross>=1.26.1.post2",
+]

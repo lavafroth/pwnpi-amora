@@ -11,8 +11,12 @@ from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS as KeyboardLayout
 from adafruit_hid.keycode import Keycode
 from board import LED
-
+import digitalio
 from logs import info, warn
+
+led = digitalio.DigitalInOut(LED)
+led.direction = digitalio.Direction.OUTPUT
+
 
 # uncomment these lines for non_US keyboards
 # replace LANG with appropriate language
@@ -49,8 +53,8 @@ def press(*keys):
     kbd.release_all()
 
 
-def led(value: bool):
-    LED.value = value
+def toggle_led(value: bool):
+    led.value = value
 
 
 def run_script(contents: str):
@@ -59,7 +63,13 @@ def run_script(contents: str):
     """
     exec(
         contents,
-        dict(print=info, write=layout.write, led=led, delay=delay, press=press),
+        dict(
+            print=info,
+            write=layout.write,
+            toggle_led=toggle_led,
+            delay=delay,
+            press=press,
+        ),
     )
 
 
@@ -73,12 +83,13 @@ def run_script_file(path: str):
     except OSError as error:
         warn(f"unable to open file {path}: {error}")
 
+
 async def run_boot_script():
     """
     Try reading and running a python script from the supplied path.
     """
     try:
-        with open('boot_payload.py', "r", encoding="utf-8") as handle:
+        with open("boot_payload.py", "r", encoding="utf-8") as handle:
             run_script(handle.read())
     except OSError:
         info("not boot script set")

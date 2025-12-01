@@ -9,4 +9,13 @@ and deploying keystroke injection scripts.
 
 ## Getting Started
 
+```sh
+uv sync
+source .venv/bin/activate
+circup install asyncio adafruit_hid adafruit_httpserver
+python build.py
+```
+
+Copy all files inside the `build/` directory to the board.
+
 Check out the [wiki](https://github.com/lavafroth/pwnpi-amora/wiki/) for getting started.
