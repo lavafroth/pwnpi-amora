@@ -23,7 +23,7 @@ async def setup_server():
     """
     wifi.radio.start_ap(ssid=os.getenv("SSID"), password=os.getenv("PASSWORD"))
     pool = socketpool.SocketPool(wifi.radio)
-    server = Server(pool)
+    server = Server(pool, debug=True)
 
     @server.route("/")
     def base(request: Request):
@@ -41,7 +41,7 @@ async def setup_server():
     def api(request: Request):
         return handle(request)
 
-    server.serve_forever(str(wifi.radio.ipv4_address_ap))
+    server.serve_forever("0.0.0.0", 80)
 
 
 async def main():
