@@ -1,7 +1,7 @@
 [project]
 name = "pwnpi-amora"
 version = "0.1.0"
-description = "Add your description here"
+description = "A wireless keystroke injection tool built on the Raspberry Pi Pico W using CircuitPython."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
