@@ -6,7 +6,7 @@ for the bottom pane of the Web UI.
 logs = []
 
 
-def consume() -> str:
+def consume():
     """
     Convert all the log entries from the module's global mutable
     list to json return them, clearing the list after the dump.
