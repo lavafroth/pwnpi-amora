@@ -109,33 +109,15 @@ wheels = [
 ]
 
 [[package]]
-name = "mpy-cross"
-version = "1.26.1.post2"
-source = { registry = "https://pypi.org/simple" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/c3/bb/cd03c8c51c3348d4d70d4be7ff937db6a52fc7db801e948adc17a9ab6dd6/mpy_cross-1.26.1.post2-py2.py3-none-macosx_11_0_universal2.whl", hash = "sha256:fbfb6fb22e4bd60d1f4fc09466efad5e2b0458ace68a47a189a8cca07a4c61ef", size = 1821727, upload-time = "2025-09-13T18:07:10.701Z" },
-    { url = "https://files.pythonhosted.org/packages/79/19/8c8510421582e572d8ff7b1e5681a77304e9b42f7a8cfc6f139caaf5090c/mpy_cross-1.26.1.post2-py2.py3-none-manylinux1_i686.whl", hash = "sha256:ce23cc77a9285ed7c3982a13614dd37971bcd5182c401b4e1441eaf0eed6cbcc", size = 1046829, upload-time = "2025-09-13T18:07:12.812Z" },
-    { url = "https://files.pythonhosted.org/packages/d1/a8/4cf9aceeb5ce75f305004a4aec26809678b8b0c7037402e7d715c9dfb686/mpy_cross-1.26.1.post2-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:a21322a88412bff215daab2720d71de419792ff203501f4a1ed1b6a5e6e8d83e", size = 923714, upload-time = "2025-09-13T18:07:14.795Z" },
-    { url = "https://files.pythonhosted.org/packages/3c/49/f9669e36d9d5e552f7e19f5747909c93e1b37580707e8cc3a8c424ae1e64/mpy_cross-1.26.1.post2-py2.py3-none-manylinux2014_aarch64.whl", hash = "sha256:e013864faadeef27e622b688b2a4556aa483a2daafebdaef81de453efc01019b", size = 1151605, upload-time = "2025-09-13T18:07:16.84Z" },
-    { url = "https://files.pythonhosted.org/packages/d3/16/e23b3eb048f9b4823e1797b856d6eb571a85a3fda92c13dfb73c3d72084e/mpy_cross-1.26.1.post2-py2.py3-none-manylinux2014_armv7l.whl", hash = "sha256:2ffbdad8a12dd9f10c0a4309130ff84a76bb54ed13c65d54a610a221854eb056", size = 1055887, upload-time = "2025-09-13T18:07:18.817Z" },
-    { url = "https://files.pythonhosted.org/packages/54/b3/7b6e9d5f8214b5da74dfb08211b04ed05a41480f34a166f44639e6997bcc/mpy_cross-1.26.1.post2-py2.py3-none-win32.whl", hash = "sha256:17cd3f5fca205ea0f478466cf2e811fb995b245014588752d1ed4ae3391f054b", size = 1082240, upload-time = "2025-09-13T18:07:20.744Z" },
-    { url = "https://files.pythonhosted.org/packages/84/04/f5c60e4ea47afa2394ec93b4205914311e87843edc33a19455c9fe31db6e/mpy_cross-1.26.1.post2-py2.py3-none-win_amd64.whl", hash = "sha256:8955b7721188ee73c0d22bd6f853fd19c50d9c443e16137c89d27070e47d62d4", size = 1166159, upload-time = "2025-09-13T18:07:22.623Z" },
-]
-
-[[package]]
 name = "pwnpi-amora"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "circup" },
-    { name = "mpy-cross" },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "circup", specifier = ">=2.3.0" },
-    { name = "mpy-cross", specifier = ">=1.26.1.post2" },
-]
+requires-dist = [{ name = "circup", specifier = ">=2.3.0" }]
 
 [[package]]
 name = "requests"
