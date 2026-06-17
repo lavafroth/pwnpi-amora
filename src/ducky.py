@@ -89,7 +89,8 @@ async def run_boot_script():
     Try reading and running a python script from the supplied path.
     """
     try:
-        with open("boot_payload.py", "r", encoding="utf-8") as handle:
+        with open("payloads/boot.py", "r", encoding="utf-8") as handle:
             run_script(handle.read())
-    except OSError:
-        info("not boot script set")
+    except OSError as e:
+        print(e)
+        info("no boot script set")

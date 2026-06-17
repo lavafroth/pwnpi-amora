@@ -5,10 +5,11 @@ function g(html) {
 }
 
 const waitTime = 500
-const files = document.querySelector(".files")
-const editor = document.querySelector('.editor')
-const logs = document.querySelector('.logs')
-const title = document.querySelector('.editorarea > .title-bar > .title')
+const files = document.querySelector("aside")
+const editor = document.querySelector('[data-code]')
+const logs = document.querySelector('[data-logs]')
+const title = document.querySelector('main > section > input')
+const newOrSave = document.querySelector('#newOrSave')
 let timer
 
 function doApi(message) {
@@ -46,7 +47,7 @@ editor.addEventListener('keyup', (_) => {
 function reload_logs() {
     doApi({'action':'logs'}).then(r => r.json()).then(body => {
         body.map(entry => {
-            logs.innerText += entry + '\n'
+            logs.value += entry + '\n'
             logs.scrollTo(0, logs.scrollHeight)
         })
     })
@@ -56,7 +57,9 @@ function reload_listing() {
     doApi({ 'action': 'list' }).then(r => r.json()).then(b => {
         files.innerHTML = ''
         b.map(filename => {
-            var text = g(`<div  class="text">${filename}</div>`)
+            const text = g(`<button data-name></button>`)
+            text.innerText = filename
+
             text.addEventListener('click', () => {
                 doApi({ 'action': 'load', 'filename': filename }).then(r => r.json()).then(b => {
                     editor.value = b["contents"]
@@ -64,59 +67,58 @@ function reload_listing() {
                     title.readOnly = true
                 })
             })
-            var delete_button = g(`<div class="delete icon"></div>`)
+            const delete_button = g(`<button>Delete</button>`)
             delete_button.addEventListener('click', () => {
                 doApi({ 'action': 'delete', 'filename': filename })
-                editor.value = ''
-                title.value = ''
-                title.readOnly = false
             })
-            var entry = g(`<div class="entry"></div>`)
+            const run_button = g(`<button>Run</button>`)
+            run_button.addEventListener('click', () => {
+                doApi({"action": "run", "filename": filename})
+            })
+            const entry = g(`<article></article>`)
             entry.appendChild(text)
             entry.appendChild(delete_button)
+            entry.appendChild(run_button)
             files.appendChild(entry)
         })
     })
 }
 
-function create_file() {
-    title.readOnly = true
-    doApi({"action": "create", "filename": title.value})
-}
-
-title_btn.addEventListener('click', create_file);
 title.addEventListener('keypress', (e) => {
     if (e.keyCode==13) {
-        create_file()
-    }
-})
-title.addEventListener('keyup', (_) => {
-    if (title.value == "") {
-        title_btn.style.display = 'none'
-    } else {
-        title_btn.style.display = 'block'
+        addNewFile()
     }
 })
 
-add.addEventListener('click', () => {
-    editor.value = ''
-    title.value = ''
-    title.readOnly = false
-    title.focus()
+function addNewFile() {
+    title.readOnly = true
+    doApi({"action": "create", "filename": title.value})
+    newOrSave.innerText = "New"
+    editor.readOnly = false
+    editor.focus()
+}
+
+newOrSave.addEventListener('click', function(event) {
+    if (title.readOnly) {
+        editor.value = ''
+        title.value = ''
+        editor.readOnly = true
+        title.readOnly = false
+        newOrSave.innerText = "Save"
+        title.focus()
+        return
+    }
+    addNewFile()
+
 })
 
-documents.addEventListener('click', () => {
-    files.classList.toggle("show");
-    files.classList.toggle("hide");
-});
-
-run.addEventListener('click', () => {
-    if (title.value != "") {
+function run() {
+    if (title.value !== "") {
         doApi({"action": "run", "filename": title.value})
     } else {
         doApi({"action": "run", "contents": editor.value})
     }
-})
+}
 
 reload_listing()
 setInterval(reload_listing, 2000)
