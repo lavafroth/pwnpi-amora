@@ -15,10 +15,27 @@ Web IDE for and deploying keystroke injection scripts over WiFi.
 ```sh
 uv sync
 source .venv/bin/activate
+```
+
+To completely clean the board you can optionally run
+
+```sh
+circuitpython-tool uf2 nuke
+```
+
+Now install the board firmware
+
+```sh
 circuitpython-tool uf2 install --board raspberry_pi_pico_w
+```
+
+Mount the drive after it appears as `CIRCUITPY`.
+
+```sh
 circup install asyncio adafruit_hid adafruit_httpserver
 ```
 
 - Copy all files inside the `src/` directory to the board.
-
-Check out the [wiki](https://github.com/lavafroth/pwnpi-amora/wiki/) for getting started.
+- Unmount and eject the drive.
+- Plug the device back in.
+- Connect to `http://192.168.4.1`
